@@ -1,0 +1,4 @@
+repository "ALIEN SIMULATOR/ALIEN SIMULATOR@12370033438201@cloud"
+  path "/"
+    br "/main"
+    co "/main"

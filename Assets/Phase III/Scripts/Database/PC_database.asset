@@ -1,0 +1,372 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c98d1504dc7bb9647ab55089f50a78ec, type: 3}
+  m_Name: PC_database
+  m_EditorClassIdentifier: 
+  documents:
+  - id: 
+    title: "Man\_Killed in Late-Night Traffic Collision"
+    body: "July 1\nA 34-year-old man\_died Saturday\_night following a traffic collision
+      on Interstate 93, authorities confirmed.\nThe victim, identified as Daniel
+      Reed, was pronounced dead at Massachusetts General Hospital shortly after emergency
+      responders transported him from the crash site.\nAccording to the Massachusetts
+      State Police, the incident occurred at approximately 19:48\_near the South
+      Bay interchange\_when Reed\u2019s vehicle was struck by a pickup truck traveling
+      northbound.\nInvestigators reported that the driver of the truck, a 42-year-old
+      Massachusetts resident, remained at the scene and later admitted responsibility
+      for the collision. Authorities stated that the driver had failed to maintain
+      lane control, resulting in the impact."
+    appType: 0
+    keywords: []
+  - id: 
+    title: Daniel Reed LinkDin
+    body: "Daniel Reed \n(781) 555-2989\nSenior Data Integrity Analyst | Clinical
+      Data Management\L Boston, Massachusetts, United States\nClinical research data
+      professional specializing in clinical trial data integrity, database audit
+      review, and regulatory documentation readiness. \n\nExperience\nQuantLog Analytics\nSenior
+      Data Integrity Analyst\L Jan 2017 \u2013 Present\nQuantLog Analytics\nClinical
+      Data Analyst\L Aug 2015 \u2013 Dec 2016\nBoston Clinical Research Group\nData
+      Management Associate\L Jun 2013 \u2013 Jul 2015\n"
+    appType: 0
+    keywords:
+    - Daniel
+    - Daniel Reed
+    - daniel reed
+  - id: 
+    title: 'Case Number: MSP-2018-0701-441'
+    body: "Incident Type: Fatal Traffic Collision\LDate of Incident: July 1, 2018\LLocation:
+      Interstate 93 Northbound, near South Bay Interchange, Boston, Massachusetts\nVictim:
+      Daniel Reed (34)\nSuspect: Travis Cole (42)\nIncident happened around 19:30.
+      Witness reported that Travis accelerated while approaching traffic ahead before
+      striking the rear of Daniel's car at highway speed.\nThe impact caused the
+      victim's vehicle to lose directional control, spin across the lane, and collide
+      with the highway barrier.\nDriver remained at the scene and cooperated with
+      responding officers. In his initial statement, driver reported that he failed
+      to reduce speed in time when approaching the vehicle ahead, resulting in a
+      rear-end collision. \n"
+    appType: 1
+    keywords:
+    - Daniel Reed
+    - daniel reed
+  - id: 
+    title: QuantLog Analytics
+    body: "We are a U.S.-based clinical data management and biostatistics company
+      headquartered in Cambridge, Massachusetts. We provide data infrastructure,
+      statistical analysis, and regulatory reporting services for pharmaceutical
+      and biotechnology companies conducting clinical trials.\nServices\nQuantLog
+      Analytics provides a range of services related to clinical trial data management
+      and analysis, including:\nClinical database design and maintenance\nElectronic
+      case report form (eCRF) systems\nBiostatistical analysis\n \nContact us: JuanLev@quantlog.com"
+    appType: 0
+    keywords:
+    - QuantLog Analytics
+    - quantlog analytics
+    - quantlog
+    - QuantLog
+  - id: 
+    title: "Wekipedia\u2014\u2014QuantLog"
+    body: "QuantLog Analytics\nQuantLog Analytics is a U.S.-based clinical data management
+      and biostatistics company headquartered in Cambridge, Massachusetts. The firm
+      provides data infrastructure, statistical analysis, and regulatory reporting
+      services for pharmaceutical and biotechnology companies conducting clinical
+      trials.\nFounded in 2009, QuantLog specializes in managing large-scale clinical
+      datasets and supporting drug developers through the statistical and regulatory
+      stages of late-phase clinical research.\nThe company is part of the broader
+      contract research organization (CRO) ecosystem that supports pharmaceutical
+      development.\nRole in Clinical Development\nPharmaceutical companies frequently
+      outsource clinical data processing to specialized CRO firms such as QuantLog.
+      In this role, QuantLog works alongside clinical operations teams and regulatory
+      consultants to ensure that trial data are:\nconsistent\ntraceable\ncompliant
+      with regulatory requirements\nThese datasets are ultimately used in New Drug
+      Applications (NDA) submitted to regulatory agencies such as the U.S. Food and
+      Drug Administration (FDA).\nIndustry Position\nQuantLog Analytics operates
+      within the Boston\u2013Cambridge biotechnology cluster, one of the largest
+      life sciences research hubs in the world.\nThe company has developed partnerships
+      with multiple pharmaceutical developers and research institutions in the region.\nAmong
+      the pharmaceutical companies that have contracted QuantLog for clinical data
+      services is Elixir Biopharma, a cardiovascular drug developer headquartered
+      in Cambridge."
+    appType: 0
+    keywords:
+    - QuantLog Analytics
+    - quantlog analytics
+    - quantlog
+    - QuantLog
+  - id: 
+    title: Juan Lev LinkDin
+    body: "Juan Lev\nSenior Data Operations Manager\L Cambridge, Massachusetts, United
+      States\nClinical data professional with more than 15 years of experience in
+      clinical data management and trial database operations.\n\nExperience\nQuantLog
+      Analytics\nSenior Data Operations Manager\L March 2017 \u2013 Present\L Cambridge,
+      Massachusetts\nOversee operational management of clinical trial databases for
+      multiple pharmaceutical sponsors\nSupport data correction workflows and database
+      unlock procedures when required\nWork with sponsor-side clinical teams and
+      statistical groups to ensure dataset readiness for regulatory submission\nMedisphere
+      Data Services\nData Analyst\L August 2008 \u2013 May 2012\L Boston, Massachusetts\nManaged
+      research data entries and validation workflows\nMaintained study data documentation
+      and quality control checks\n\n"
+    appType: 0
+    keywords:
+    - Juan Lev
+    - Juan
+    - juan
+    - juan lev
+  - id: 
+    title: QuantLog Data Manager Reported Missing; Police Investigating Possible
+      Corporate Data Theft
+    body: "July 6\nAuthorities in Cambridge have launched an investigation after
+      a senior employee of QuantLog Analytics was reported missing earlier this week.\nThe
+      individual, identified as Juan Lev, 41, worked as a Senior Data Operations
+      Manager at the company\u2019s Cambridge headquarters.\nAccording to a statement
+      released by QuantLog, the company reported Lev missing after he failed to report
+      to work and could not be reached by phone or email for several days.\nPossible
+      Removal of Company Materials\nCambridge Police confirmed that the case is being
+      investigated in coordination with the company\u2019s internal security team.\nA
+      spokesperson for the Cambridge Police Department stated that Lev had access
+      to clinical research data systems and internal project documentation through
+      his role. Investigators are examining whether Lev may have left the company
+      while in possession of sensitive corporate materials."
+    appType: 0
+    keywords:
+    - Juan Lev
+    - Juan
+    - juan
+    - juan lev
+  - id: 
+    title: 'Case Number: CPD-2018-0706-302'
+    body: "Case Type: Missing Person / Possible Corporate Data Theft\LDate Opened:
+      July 16, 2018\LJurisdiction: Cambridge, Massachusetts Name: Juan Lev\LAge:
+      41\LOccupation: Senior Data Operations Manager\LEmployer: QuantLog Analytics\LResidence:
+      Somerville, Massachusetts Lev was reported missing by his employer after failing
+      to appear for work and being unreachable by phone and email for several days.
+      QuantLog representatives informed that Lev had administrative access to several
+      clinical data systems and internal project documentation as part of his employment
+      responsibilities. The company expressed concern that Lev may have removed proprietary
+      materials prior to leaving. Last Known Timeline July 1, 2018  20:04 \u2014
+      Lev logged into QuantLog internal network from office workstation.\L 20:10
+      \u2014 Access recorded in several project directories related to ongoing clinical
+      data operations.\L 22:05 \u2014 Security records show Lev exiting the QuantLog
+      Cambridge facility.\L 22:13 \u2014 Building surveillance captured Lev leaving
+      the parking structure. Lev has not been seen at the workplace since that time.
+      Recent Call Activity June 28, 2018 08:14 Outgoing (857) 555-4478 03:12 June
+      30, 2018 09:22 Incoming (781) 555-1140 00:10 July 1, 2018 16:45 Outgoing (781)
+      555-2356 04:29 July 1, 2018 19:20 Outgoing (617) 555-7821 01:08 July 1, 2018
+      19:35 Incoming (617) 555-7821 03:45  Additional Notes Investigators found a
+      file recently uploaded onto Juan's ClouDisk, protected with password. File
+      link"
+    appType: 0
+    keywords:
+    - Juan Lev
+    - juan lev
+  - id: 
+    title: Help Emily Fight for Her Life
+    body: "Created: March 12, 2018\LLocation: Quincy, Massachusetts\nHi everyone,\nMy
+      name is Travis Cole, and I never thought I would find myself writing something
+      like this.\nI\u2019m a single father raising my daughter Emily, who just turned
+      9 years old this spring. Emily is the kindest and bravest kid I know. She loves
+      drawing animals, watching space documentaries, and telling me about the planets
+      she wants to visit one day.\nLast year, Emily was diagnosed with a rare congenital
+      blood disorder that affects how her body forms clots. What started as frequent
+      bruising and unexplained fatigue quickly turned into a series of hospital visits,
+      tests, and treatments.\nDoctors told us that Emily will likely need long-term
+      medication and specialized treatment to manage the condition, which is extremely
+      expensive for my family. Without it, even minor injuries could become life-threatening.\nI
+      work full time and do everything I can to support my daughter, but the reality
+      is that I can\u2019t do this alone. If you are able to help, any contribution\u2014no
+      matter how small\u2014will go directly toward Emily\u2019s medical care and
+      treatment. If you cannot donate, sharing this page would mean the world to
+      us.\nI just want to make sure she gets the chance to grow up.\nThank you for
+      taking the time to read our story.\nTop Comment\nJuan L    $500\n Stay strong,
+      man. Emily needs you.\n \u2003\u2003\u2003Author replied: Thanks, man. You've
+      always been a good friend.\nSarah M   $100\n Try applying for the ECAP. Stay
+      strong!\n\u2003\u2003\u2003Author replied: Thank you! We actually tried applying
+      for that but they turned us down.\n            John C replied: ECAP is shit.
+      Only few people got accepted into the project. Hypocrites!\n"
+    appType: 0
+    keywords:
+    - Travis Cole
+    - travis cole
+    - travis
+    - Travis
+  - id: 
+    title: "JobFinder\u2014\u2014Travis Cole"
+    body: "Travis Cole \n(617) 555-7821\nCommercial Driver / Logistics Worker\L Quincy,
+      Massachusetts, United States\nExperienced commercial driver with more than
+      15 years of transportation and delivery experience in the Greater Boston area.
+      Skilled in long-haul and regional freight transport, vehicle safety procedures,
+      and time-sensitive logistics operations.\nReliable, safety-focused driver familiar
+      with highway and urban delivery routes across Massachusetts and neighboring
+      states.\nWork Experience\nNortheast Freight Logistics\nCommercial Truck Driver\L
+      March 2018 \u2013 Present\L Boston, MA\nOperate light and medium freight vehicles
+      for regional transport routes\nDeliver commercial goods to distribution centers
+      and warehouses across Massachusetts\nAtlantic Supply Distribution\nDelivery
+      Driver\L July 2013 \u2013 February 2018\L Quincy, MA\nTransport fragile laboratory
+      equipment, electronics, and technical hardware.\nHandle high-value cargo requiring
+      careful loading, stabilization, and secure transport.\nHarbor Maintenance Services\nEquipment
+      Operator / Driver\L May 2008 \u2013 June 2013\L Boston, MA\nTransport equipment
+      and maintenance supplies to job sites\nAssist with loading and unloading materials"
+    appType: 0
+    keywords:
+    - Travis Cole
+    - travis cole
+    - travis
+    - Travis
+  - id: 
+    title: "Wekipedia\u2014\u2014ECAP"
+    body: "Elixir Compassion Access Program Elixir Compassion Access Program (ECAP)
+      is a patient assistance and charitable access initiative operated by Elixir
+      Biopharma. Established in 2014, the program provides subsidized or no-cost
+      treatment support to selected patients with serious chronic illnesses, rare
+      disorders, and long-term cardiovascular conditions who are unable to afford
+      standard therapy. ECAP was launched as part of Elixir\u2019s broader corporate
+      social responsibility and patient access strategy, and has been cited by the
+      company as evidence of its commitment to reducing cost barriers in life-sustaining
+      care. Controversy among public While publicly described by the company as a
+      program aimed at expanding access to life-saving medication, the Elixir Compassion
+      Access Program has been criticized for its restrictive eligibility requirements
+      and limited acceptance rate. Critics argue that such programs can function
+      as corporate reputation initiatives, allowing pharmaceutical companies to highlight
+      charitable efforts while continuing to sell high-cost medications at market
+      prices."
+    appType: 0
+    keywords:
+    - ECAP
+    - ecap
+  - id: 
+    title: Elixir Compassion Access Program (ECAP)
+    body: "Expanding access. Supporting patients. Strengthening care.\nAt Elixir
+      Biopharma, we believe that no patient should be left behind because of financial
+      hardship.\nThe Elixir Compassion Access Program (ECAP) was created to help
+      eligible patients and families gain access to treatment support when cost becomes
+      a barrier to care. Through ECAP, Elixir works with healthcare providers and
+      patient families to reduce out-of-pocket burden for selected therapies in areas
+      of significant unmet medical need.\nOur Commitment\nSerious and chronic illnesses
+      place an enormous burden on patients, caregivers, and families. In many cases,
+      treatment decisions are shaped not only by medical need, but by affordability.\nECAP
+      reflects Elixir\u2019s commitment to:\nimproving treatment access for underserved
+      patients\nsupporting families facing long-term care costs\npartnering with
+      physicians to help patients remain on therapy\nadvancing a more affordable
+      future in chronic disease care\nFor Elixir, access is not separate from innovation.
+      It is part of innovation.\nWho ECAP Supports\nECAP may provide assistance to
+      qualifying patients in selected therapeutic areas, including:\ncardiovascular
+      care\nanticoagulation and clotting-related conditions\nhematological disorders\nselected
+      chronic metabolic conditions\nSupport may include:\nreduced-cost treatment
+      access\ntemporary no-cost supply programs\ncase review for hardship circumstances\npatient
+      support coordination through treating physicians\nPeople We Helped\n\uFF08Pictures
+      of patients, including Emily Cole.\uFF09\nApply Through Your Healthcare Provider\nECAP
+      applications must be submitted by a licensed healthcare provider or authorized
+      clinical office representative.\nFor program inquiries, physicians and care
+      teams may contact:\nECAP Patient Access Office\L Elixir Biopharma\L Cambridge,
+      Massachusetts\L Phone: (800) 555-2741\L Email: ecap@elixirbiopharma.com"
+    appType: 0
+    keywords:
+    - ECAP
+    - ecap
+  - id: 
+    title: Atlantic Supply Distribution
+    body: "Atlantic Supply Distribution is a regional logistics and equipment transport
+      company based in Quincy, Massachusetts, serving commercial, industrial, and
+      research clients across the Greater Boston area.\nFounded in 2001, the company
+      specializes in the transport of high-value equipment, technical hardware, and
+      laboratory supplies for clients in technology research and industrial sectors.\nAtlantic
+      Supply Distribution operates a fleet of light and medium transport vehicles
+      and provides scheduled delivery services to universities, corporate campuses,
+      and research facilities throughout Massachusetts and neighboring states.\nClients\nWe
+      have been working with many companies and organizations you might heard of,
+      such as QuantLog Analytics, and we receive positive reviews from them. \nAt
+      ASD, we put our clients' interest in first place."
+    appType: 0
+    keywords:
+    - Atlantic Supply Distribution
+    - atlantic supply distribution
+  - id: 
+    title: "Wekipedia\u2014\u2014Elixir Biopharma"
+    body: "Elixir Biopharma is an American multinational pharmaceutical company headquartered
+      in Cambridge, Massachusetts. Founded in 1984, the company is known for developing
+      therapies in cardiovascular medicine, anticoagulation, and metabolic disease.\nThroughout
+      the 1990s and early 2000s, Elixir grew into one of the leading pharmaceutical
+      manufacturers in the United States, largely driven by a series of successful
+      cardiovascular drugs. \nAs of 2018, Elixir employs approximately 18,000 people
+      worldwide and maintains research and manufacturing facilities across North
+      America and Europe.\nTherapeutic Focus\nElixir Biopharma primarily develops
+      treatments in the following areas:\nCardiovascular medicine\nAnticoagulation
+      therapies\nMetabolic disease treatments\nVascular health\nMany of the company's
+      most successful drugs have been used to prevent blood clots, strokes, and heart
+      attacks in patients with cardiovascular conditions.\nMajor Products\nThromval\nApproved:
+      1998\L Indication: Prevention of blood clots in patients with atrial fibrillation.\nThromval
+      became one of the most widely prescribed anticoagulants in North America during
+      the early 2000s.\nCardiox\nApproved: 2003\L Indication: Treatment of chronic
+      hypertension.\nCardiox was a major commercial success and remained a leading
+      therapy for over a decade.\nUnknown Project (in development)\nEstimated approval
+      time: 2018\n"
+    appType: 0
+    keywords:
+    - Elixir
+    - elixir
+    - Elixir Biopharma
+    - elixir biopharma
+  - id: 
+    title: Elixir Biopharma Expected to Transition Clinical Data Management Partner
+    body: "May 26\nElixir Biopharma is reportedly preparing to transition its clinical
+      trial data infrastructure to a new contract research partner. Industry observers
+      say the company is now evaluating alternative vendors as part of a broader
+      review of its clinical data systems and regulatory preparation processes.\nDr.
+      Karen Whitmore, Elixir\u2019s Vice President of Clinical Operations, addressed
+      the company\u2019s ongoing clinical data infrastructure modernization during
+      a recent industry conference panel. Whitmore stated that the company is focused
+      on ensuring that its clinical data pipelines remain \u201Cfully aligned with
+      evolving regulatory expectations.\u201D\nQuantLog Analytics has served as a
+      clinical data contractor for multiple Elixir research programs, providing database
+      management and statistical data preparation services for regulatory submissions.\nWhitmore
+      did not comment directly on the status of the company\u2019s relationship with
+      QuantLog Analytics. Neither company has confirmed if / when a potential transition
+      would take place."
+    appType: 0
+    keywords:
+    - Elixir
+    - elixir
+    - Elixir Biopharma
+    - elixir biopharma
+  - id: 
+    title: Investigation Started on Elixir After Patient Deaths in Drug Study
+    body: "\uFF08Content deleted by author\uFF09"
+    appType: 0
+    keywords:
+    - Elixir
+    - elixir
+    - Elixir Biopharma
+    - elixir biopharma
+  - id: 
+    title: 'Case Number: CPD-2018-0119-117 '
+    body: "Case Type: Sudden Death Investigation\LDate Opened: January 19, 2018\nDate
+      Closed: March 14, 2018\LLocation: Cambridge, Massachusetts\nIncident Summary\n5
+      persons enrolled in a clinical trial for an investigational anticoagulant medication
+      identified as HXR-217, administered as part of a Phase III cardiovascular study
+      conducted at Cambridge Heart Research Center. Within 4 months after treatments
+      started, these 5 patients deceased because of severe bleeding symptoms. The
+      families of these 5 patients now request a full investigation on Elixir's clinical
+      trial.\nMedical Findings\nHospital physicians reported evidence of severe internal
+      bleeding, including:\nsuspected intracranial hemorrhage\nsignificant blood
+      loss\nabnormal clotting parameters\n\n\n\n\n\nInvestigator Notes\nInvestigators
+      determined that the death occurred in the context of a registered clinical
+      trial and that no evidence of criminal activity was present. The subjects had
+      voluntarily enrolled in the trial and bleeding complications were a documented
+      risk of anticoagulant medication. Besides, the subjects had been confirmed
+      to have not followed the prescribed dosing instructions. \nThe subjects' families
+      confirmed that they have come to an agreement with Elixir Biopharma, thus no
+      further investigation is needed."
+    appType: 1
+    keywords:
+    - Elixir
+    - elixir
+    - Elixir Biopharma
+    - elixir biopharma
