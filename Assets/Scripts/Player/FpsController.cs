@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput))]
 public class FpsController : MonoBehaviour
 {
+    public GameObject flashlight;
+    private bool flashOn = false;
     [Header("Refs")]
     public Transform cameraRoot;          // °ó¶¨ Camera »ò CameraRoot
     public Camera playerCamera;           // °ó¶¨ Camera
@@ -89,6 +91,7 @@ public class FpsController : MonoBehaviour
     InputAction sprintAction;
     InputAction crouchAction;
     InputAction proneAction;
+    InputAction flashlightAction;
 
     float yaw, pitch;
 
@@ -130,6 +133,7 @@ public class FpsController : MonoBehaviour
         sprintAction = actions["Sprint"];
         crouchAction = actions["Crouch"];
         proneAction = actions["Prone"];
+        flashlightAction = actions["Flashlight"];
 
         stamina = staminaMax;
         regenTimer = 0f;
@@ -150,6 +154,7 @@ public class FpsController : MonoBehaviour
         sprintAction?.Enable();
         crouchAction?.Enable();
         proneAction?.Enable();
+        flashlightAction?.Enable();
     }
 
     void OnDisable()
@@ -160,12 +165,18 @@ public class FpsController : MonoBehaviour
         sprintAction?.Disable();
         crouchAction?.Disable();
         proneAction?.Disable();
+        flashlightAction?.Disable();
     }
 
     void Update()
     {
         //if (enableStamina) Debug.Log($"Stamina: {stamina:F2}/{staminaMax}");
-
+        if (flashlightAction.WasPressedThisFrame())
+        {
+            flashOn = !flashOn;
+            if(flashOn)flashlight.SetActive(true);
+            else flashlight.SetActive(false);
+        }
         HandleLook();
         if (externalLadderLock)
         {
