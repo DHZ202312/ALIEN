@@ -7,6 +7,8 @@ TagManager:
   - PlayerCam
   - Enemy
   - WeaponCam
+  - RightSample
+  - PowerUnit
   layers:
   - Default
   - TransparentFX
@@ -18,8 +20,8 @@ TagManager:
   - Ladder
   - NotebookInterface
   - Weapon&Gadgets
-  - 
-  - 
+  - Pickables
+  - Enemy
   - 
   - 
   - 

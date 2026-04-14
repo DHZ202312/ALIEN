@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8298582832774039590}
   - component: {fileID: 4962668248379777662}
   - component: {fileID: 2498158262854362687}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5408373361485046780}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 1846630402575171894}
   - component: {fileID: 1952951516098317559}
   - component: {fileID: 1855514869255588174}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 3604839128931394213}
   - component: {fileID: 1685485445420774649}
   - component: {fileID: 2726508073229924848}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ MonoBehaviour:
   agent: {fileID: 2726508073229924848}
   sensoryTick: 0.12
   canSeeThrough: 0
-  sightRadius: 160
+  sightRadius: 100
   fov: 170
   playerHeadHeight: 1.6
   playerMask:
@@ -356,14 +356,14 @@ MonoBehaviour:
   searchDuration: 4
   suspicionTimeout: 8
   noiseMinLoudness: 0.1
-  noiseHearingRadius: 14
-  visionConfirmTime: 0.6
-  showVisionProgressDebug: 1
+  noiseHearingRadius: 20
+  visionConfirmTime: 1.5
+  showVisionProgressDebug: 0
   chaseStopDistance: 1.6
   loseSightGrace: 1.2
   chaseUpdateInterval: 0.12
-  chaseSpeed: 3.8
-  roamSpeed: 2
+  chaseSpeed: 2.7
+  roamSpeed: 0.8
   roamRadius: 10
   segmentsPerDirectionMin: 4
   segmentsPerDirectionMax: 10
@@ -388,6 +388,7 @@ MonoBehaviour:
   repathCooldown: 0.6
   state: 0
   playerSeen: {fileID: 0}
+  debugHearing: 1
 --- !u!195 &2726508073229924848
 NavMeshAgent:
   m_ObjectHideFlags: 0

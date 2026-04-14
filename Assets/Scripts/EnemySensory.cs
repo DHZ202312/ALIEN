@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour,INoiseListener
 {
     public enum State { Roam, Suspicious, Chase }
     [Header("State Materials (Debug)")]
@@ -85,6 +85,7 @@ public class EnemyAI : MonoBehaviour
     [Header("Debug")]
     public State state = State.Roam;
     public Transform playerSeen;
+    public bool debugHearing = false;
 
     // internal
     float nextSenseTime;
@@ -232,6 +233,10 @@ public class EnemyAI : MonoBehaviour
                 EnterRoam();
         }
     }
+    public void OnHeardNoise(Vector3 noisePosition, float loudness = 1f)
+    {
+        HearNoise(noisePosition, loudness);
+    }
 
     // -------------------------
     // EXTERNAL: NOISE
@@ -242,14 +247,32 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     public void HearNoise(Vector3 pos, float loudness = 1f)
     {
-        if (loudness < noiseMinLoudness) return;
+        if (debugHearing)
+        {
+            Debug.Log($"{name} heard noise at {pos}, loudness={loudness:F2}");
+        }
+        if (loudness < noiseMinLoudness)
+            return;
 
-        // 简单听力：距离越远越弱
         float d = Vector3.Distance(transform.position, pos);
-        if (d > noiseHearingRadius * Mathf.Max(0.2f, loudness)) return;
+        if (d > noiseHearingRadius * Mathf.Max(0.2f, loudness))
+            return;
 
-        // 如果正在追击，通常忽略较小噪音（防止被引走）；你也可以反过来做“诱饵”
-        if (state == State.Chase) return;
+        // 正在追击时忽略普通噪音
+        if (state == State.Chase)
+            return;
+
+        // 如果已经在怀疑状态，就刷新调查目标和计时
+        if (state == State.Suspicious)
+        {
+            investigateTarget = pos;
+            suspicionStartTime = Time.time;
+            searchEndTime = 0f;
+
+            agent.stoppingDistance = investigateStopDistance;
+            SetDestinationNavSafe(investigateTarget);
+            return;
+        }
 
         EnterSuspicious(pos);
     }

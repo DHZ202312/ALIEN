@@ -15,6 +15,7 @@ public class FpsController : MonoBehaviour
     public CapsuleCollider bodyCapsule;  // 推荐：玩家额外碰撞体
     public bool syncColliderRadius = true;
     public float colliderRadiusScale = 1f; // 需要略小一点可设 0.95
+    public PlayerMovementNoise movementNoise;
 
 
     [Header("Look")]
@@ -189,6 +190,15 @@ public class FpsController : MonoBehaviour
         }
         HandleStanceInput();
         HandleMovement();
+
+        if (movementNoise != null)
+        {
+            bool crouching = stance == Stance.Crouch;
+            bool prone = stance == Stance.Prone;
+            bool sprinting = isSprinting && !externalLadderLock;
+
+            movementNoise.SetMovementState(sprinting, crouching, prone);
+        }
     }
     private void LateUpdate()
     {

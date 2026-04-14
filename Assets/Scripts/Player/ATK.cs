@@ -24,7 +24,7 @@ public class MeleeAttack : MonoBehaviour
     [SerializeField] private CharacterController characterController;
 
     [Header("Input")]
-    [SerializeField] private int attackMouseButton = 0;
+    [SerializeField] private int attackMouseButton = 1;
     [SerializeField] private float heavyChargeTime = 1f;
 
     [Header("Timing")]
