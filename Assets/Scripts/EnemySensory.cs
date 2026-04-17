@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEditor.AnimatedValues;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour, INoiseListener
@@ -80,8 +82,16 @@ public class EnemyAI : MonoBehaviour, INoiseListener
     public float patrolPointStopTime = 5f;
     public float patrolLookAroundSpeed = 60f;
     public float patrolLookAroundAngle = 45f;
-    public bool patrolExitAfterLastPoint = false;
+
+    [Header("Patrol Exit")]
+    
+    public bool patrolReturnToFreeRoam = false;
+    public bool patrolExitLevel = false;
     public Transform patrolExitPoint;
+    public bool disableGameObjectOnExit = true;
+    public bool disableAgentOnExit = true;
+    public bool disableAIOnExit = true;
+    public GameObject PowerBack;
 
     float nextAnchorTime;
     float lastChaseEndTime;
@@ -92,6 +102,17 @@ public class EnemyAI : MonoBehaviour, INoiseListener
     Vector3 lastStuckCheckPos;
     float stuckAccum;
     float lastRepathTime;
+
+    [Header("Jump And Leave")]
+    public float leaveJumpUpDistance = 1.2f;
+    public float leaveJumpUpDuration = 0.22f;
+    public float leaveHangDuration = 0.5f;
+    public float leaveClimbUpDistance = 1.0f;
+    public float leaveClimbUpDuration = 0.8f;
+
+    public bool disableGameObjectOnLeave = true;
+    public bool disableRendererOnLeave = false;
+    public Renderer[] renderersToHide;
 
     [Header("Debug")]
     public State state = State.Roam;
@@ -120,6 +141,8 @@ public class EnemyAI : MonoBehaviour, INoiseListener
     bool patrolGoingToExit = false;
     float patrolLookBaseYaw = 0f;
     bool scriptedPatrolInterrupted = false;
+    bool isLeavingLevel = false;
+    Coroutine leavingRoutine;
 
     void Awake()
     {
@@ -155,6 +178,8 @@ public class EnemyAI : MonoBehaviour, INoiseListener
 
     void Update()
     {
+        if (isLeavingLevel)
+            return;
         if (Time.time >= nextSenseTime)
         {
             nextSenseTime = Time.time + sensoryTick;
@@ -180,6 +205,11 @@ public class EnemyAI : MonoBehaviour, INoiseListener
         for (int i = 0; i < hits.Length; i++)
         {
             Transform t = hits[i].transform;
+
+            PlayerHideState hideState = t.GetComponentInParent<PlayerHideState>();
+            if (hideState != null && hideState.isHidden)
+                continue;
+
             Vector3 headPos = t.position + Vector3.up * playerHeadHeight;
 
             if (!InFOV(headPos)) continue;
@@ -384,7 +414,8 @@ public class EnemyAI : MonoBehaviour, INoiseListener
 
         if (useScriptedPatrol)
         {
-            TickScriptedPatrol();
+            if (!isLeavingLevel)
+                TickScriptedPatrol();
             return;
         }
 
@@ -447,7 +478,78 @@ public class EnemyAI : MonoBehaviour, INoiseListener
             return;
         }
     }
+    IEnumerator JumpAndLeaveRoutine()
+    {
+        Vector3 startPos = transform.position;
+        Vector3 jumpPeakPos = startPos + Vector3.up * leaveJumpUpDistance;
+        Vector3 climbEndPos = jumpPeakPos + Vector3.up * leaveClimbUpDistance;
 
+        // 1. 快速上跳
+        yield return MoveWorldPositionRoutine(startPos, jumpPeakPos, leaveJumpUpDuration, true);
+
+        // 2. 扒住边缘悬停
+        yield return new WaitForSeconds(leaveHangDuration);
+
+        // 3. 慢速把自己拖进去
+        yield return MoveWorldPositionRoutine(jumpPeakPos, climbEndPos, leaveClimbUpDuration, false);
+
+        // 4. 消失
+        if (disableRendererOnLeave)
+        {
+            HideRenderers();
+        }
+
+        if (disableGameObjectOnLeave)
+        {
+            gameObject.SetActive(false);
+        }
+        PowerBack.SetActive(true);
+
+        isLeavingLevel = false;
+        leavingRoutine = null;
+    }
+    IEnumerator MoveWorldPositionRoutine(Vector3 from, Vector3 to, float duration, bool easeOut)
+    {
+        float time = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = Mathf.Clamp01(time / duration);
+
+            float easedT = easeOut
+                ? EaseOutCubic(t)
+                : Mathf.SmoothStep(0f, 1f, t);
+
+            transform.position = Vector3.Lerp(from, to, easedT);
+            yield return null;
+        }
+
+        transform.position = to;
+    }
+    void HideRenderers()
+    {
+        if (renderersToHide != null && renderersToHide.Length > 0)
+        {
+            for (int i = 0; i < renderersToHide.Length; i++)
+            {
+                if (renderersToHide[i] != null)
+                    renderersToHide[i].enabled = false;
+            }
+            return;
+        }
+
+        Renderer[] rs = GetComponentsInChildren<Renderer>(true);
+        for (int i = 0; i < rs.Length; i++)
+        {
+            if (rs[i] != null)
+                rs[i].enabled = false;
+        }
+    }
+    float EaseOutCubic(float t)
+    {
+        return 1f - Mathf.Pow(1f - t, 3f);
+    }
     void TickScriptedPatrol()
     {
         if (patrolPoints == null || patrolPoints.Length == 0)
@@ -469,14 +571,26 @@ public class EnemyAI : MonoBehaviour, INoiseListener
 
             if (!agent.pathPending && agent.remainingDistance <= arriveDistance)
             {
-                useScriptedPatrol = false;
-                patrolGoingToExit = false;
-                EnterRoam();
+                HandlePatrolExitLevelReached();
             }
 
             return;
         }
+        void HandlePatrolExitLevelReached()
+        {
+            useScriptedPatrol = false;
+            patrolGoingToExit = false;
+            isWaitingAtPatrolPoint = false;
+            scriptedPatrolInterrupted = false;
 
+            if (agent != null)
+                agent.enabled = false;
+
+            // 如果有 EnemyAnim，就播离场动画
+            HowEnemyLeaves();
+
+            // 没有动画的话，直接消失
+        }
         if (isWaitingAtPatrolPoint)
         {
             agent.ResetPath();
@@ -547,7 +661,7 @@ public class EnemyAI : MonoBehaviour, INoiseListener
             return;
         }
 
-        if (patrolExitAfterLastPoint)
+        if (patrolExitLevel)
         {
             if (patrolExitPoint != null)
             {
@@ -556,18 +670,27 @@ public class EnemyAI : MonoBehaviour, INoiseListener
             }
             else
             {
+                Debug.LogWarning($"{name}: patrolExitLevel 为 true，但 patrolExitPoint 未指定。将改为普通自由巡逻。", this);
                 useScriptedPatrol = false;
                 EnterRoam();
             }
+
+            return;
         }
-        else
+
+        if (patrolReturnToFreeRoam)
         {
-            currentPatrolIndex = 0;
-            Transform firstPoint = patrolPoints[currentPatrolIndex];
-            if (firstPoint != null)
-            {
-                SetDestinationNavSafe(firstPoint.position);
-            }
+            useScriptedPatrol = false;
+            EnterRoam();
+            return;
+        }
+
+        // 默认循环
+        currentPatrolIndex = 0;
+        Transform firstPoint = patrolPoints[currentPatrolIndex];
+        if (firstPoint != null)
+        {
+            SetDestinationNavSafe(firstPoint.position);
         }
     }
 
@@ -680,7 +803,7 @@ public class EnemyAI : MonoBehaviour, INoiseListener
                 }
             }
 
-            if (patrolExitAfterLastPoint && patrolExitPoint != null && patrolPoints.Length > 0 && patrolPoints[patrolPoints.Length - 1] != null)
+            if (patrolExitLevel && patrolExitPoint != null && patrolPoints.Length > 0 && patrolPoints[patrolPoints.Length - 1] != null)
             {
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(patrolExitPoint.position, 0.35f);
@@ -738,6 +861,10 @@ public class EnemyAI : MonoBehaviour, INoiseListener
         }
     }
 
+    public void HowEnemyLeaves()
+    {
+        StartCoroutine(JumpAndLeaveRoutine());
+    }
     bool TryPickPointNearPlayer(out Vector3 result)
     {
         result = player != null ? player.position : transform.position;

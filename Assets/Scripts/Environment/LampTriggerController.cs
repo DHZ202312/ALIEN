@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 
 public class LampTriggerController : MonoBehaviour
 {
@@ -17,6 +18,11 @@ public class LampTriggerController : MonoBehaviour
         Lock,
         Unlock,
         ToggleLock
+    }
+    public enum VentTriggerAction
+    {
+        Drop,
+        WaitThenDrop
     }
 
     [System.Serializable]
@@ -116,9 +122,36 @@ public class LampTriggerController : MonoBehaviour
         }
     }
 
+    [System.Serializable]
+    public class VentEntry
+    {
+        [Header("Vent Root")]
+        public GameObject ventRoot;
+
+        [Header("Auto Found Ref")]
+        public VentCover VentCoverController;
+
+        [Header("Action")]
+        public VentTriggerAction action = VentTriggerAction.Drop;
+
+        public void AutoResolve()
+        {
+            if (ventRoot == null)
+                return;
+
+            if (VentCoverController == null)
+            {
+                VentCoverController = ventRoot.GetComponent<VentCover>();
+                if (VentCoverController == null)
+                    VentCoverController = ventRoot.GetComponentInChildren<VentCover>(true);
+            }
+        }
+    }
+
     [Header("Trigger Settings")]
     public List<LampEntry> lamps = new List<LampEntry>();
     public List<DoorEntry> doors = new List<DoorEntry>();
+    public List<VentEntry> vents = new List<VentEntry>();
 
     public string playerTag = "Player";
     public bool triggerOnce = true;
@@ -164,6 +197,7 @@ public class LampTriggerController : MonoBehaviour
 
         ExecuteAllLampActions();
         ExecuteAllDoorActions();
+        ExecuteAllVentActions();
 
         if (triggerOnce)
             hasTriggered = true;
@@ -174,6 +208,7 @@ public class LampTriggerController : MonoBehaviour
     {
         AutoResolveAllLamps();
         AutoResolveAllDoors();
+        AutoResolveAllVents();
     }
 
     [ContextMenu("Auto Resolve All Lamps")]
@@ -195,6 +230,15 @@ public class LampTriggerController : MonoBehaviour
                 doors[i].AutoResolve();
         }
     }
+    [ContextMenu("Auto Resolve All Vents")]
+    public void AutoResolveAllVents()
+    {
+        for (int i = 0; i < vents.Count; i++)
+        {
+            if (vents[i] != null)
+                vents[i].AutoResolve();
+        }
+    }
 
     public void ExecuteAllLampActions()
     {
@@ -209,6 +253,13 @@ public class LampTriggerController : MonoBehaviour
         for (int i = 0; i < doors.Count; i++)
         {
             ExecuteDoorAction(doors[i]);
+        }
+    }
+    public void ExecuteAllVentActions()
+    {
+        for (int i = 0; i < vents.Count; i++)
+        {
+            ExecuteVentAction(vents[i]);
         }
     }
 
@@ -293,6 +344,26 @@ public class LampTriggerController : MonoBehaviour
 
             case DoorTriggerAction.ToggleLock:
                 door.doorController.SetLocked(!door.doorController.isLocked);
+                break;
+        }
+    }
+    private void ExecuteVentAction(VentEntry vent)
+    {
+        if (vent == null)
+            return;
+        if (vent.VentCoverController == null)
+        {
+            vent.AutoResolve();
+        }
+        if (vent.VentCoverController == null)
+            return;
+        switch (vent.action)
+        {
+            case VentTriggerAction.Drop:
+                vent.VentCoverController.ventDrop();
+                break;
+            case VentTriggerAction.WaitThenDrop:
+                vent.VentCoverController.ventWaitDrop();
                 break;
         }
     }

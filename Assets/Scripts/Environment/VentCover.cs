@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class VentCover : MonoBehaviour, IDamageable
@@ -23,12 +24,16 @@ public class VentCover : MonoBehaviour, IDamageable
     [Header("Optional")]
     [SerializeField] private Collider coverCollider;
     [SerializeField] private GameObject intactVisualRoot;
+    public float secondsBeforeDrop = 5f;
+    public EnemyAnim animController;
 
     private bool isBroken = false;
     private bool hasShownDamagedState = false;
+    private Rigidbody rb;
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         currentHp = Mathf.Clamp(currentHp, 1, maxHp);
 
         if (targetRenderer == null)
@@ -103,7 +108,25 @@ public class VentCover : MonoBehaviour, IDamageable
             }
         }
     }
-
+    public void ventDrop()
+    {
+        rb.isKinematic = false;
+    }
+    public void ventWaitDrop()
+    {
+        StartCoroutine(waitthendrop());
+    }
+    IEnumerator waitthendrop()
+    {
+        yield return new WaitForSeconds(secondsBeforeDrop);
+        rb.isKinematic = false;
+        StartCoroutine(waitthenActivateController());
+    }
+    IEnumerator waitthenActivateController()
+    {
+        yield return new WaitForSeconds(3f);
+        animController.enabled = true;
+    }
     private void BreakCover()
     {
         if (isBroken)
