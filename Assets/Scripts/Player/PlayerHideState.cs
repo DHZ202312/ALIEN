@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerHideState : MonoBehaviour
@@ -6,15 +7,26 @@ public class PlayerHideState : MonoBehaviour
 
     private int hideZoneCount = 0;
 
+    public event Action<bool> OnHiddenStateChanged;
+
     public void EnterHideZone()
     {
         hideZoneCount++;
-        isHidden = hideZoneCount > 0;
+        SetHiddenState(hideZoneCount > 0);
     }
 
     public void ExitHideZone()
     {
         hideZoneCount = Mathf.Max(0, hideZoneCount - 1);
-        isHidden = hideZoneCount > 0;
+        SetHiddenState(hideZoneCount > 0);
+    }
+
+    private void SetHiddenState(bool hidden)
+    {
+        if (isHidden == hidden)
+            return;
+
+        isHidden = hidden;
+        OnHiddenStateChanged?.Invoke(isHidden);
     }
 }
