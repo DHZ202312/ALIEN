@@ -380,7 +380,7 @@ public class EnemyAI : MonoBehaviour, INoiseListener
     void TickChase()
     {
         if (!agent) return;
-
+        if(!agent.isOnNavMesh) return;
         if (Time.time >= nextChaseSetTime)
         {
             nextChaseSetTime = Time.time + chaseUpdateInterval;
@@ -392,6 +392,7 @@ public class EnemyAI : MonoBehaviour, INoiseListener
     void TickSuspicious()
     {
         if (!agent) return;
+        if (!agent.isOnNavMesh) return;
 
         if (!agent.pathPending && agent.remainingDistance <= Mathf.Max(arriveDistance, investigateStopDistance))
         {
@@ -411,7 +412,7 @@ public class EnemyAI : MonoBehaviour, INoiseListener
     void TickRoam()
     {
         if (!agent) return;
-
+        if(!agent.isOnNavMesh) return;
         if (useScriptedPatrol)
         {
             if (!isLeavingLevel)
@@ -765,7 +766,7 @@ public class EnemyAI : MonoBehaviour, INoiseListener
     bool SetDestinationNavSafe(Vector3 worldPos)
     {
         if (!agent) return false;
-
+        if (!agent.isOnNavMesh) return false;
         if (NavMesh.SamplePosition(worldPos, out NavMeshHit hit, 1.2f, NavMesh.AllAreas))
         {
             agent.SetDestination(hit.position);

@@ -22,14 +22,38 @@ public class VentCover : MonoBehaviour, IDamageable
     [SerializeField] private float destroyDelay = 0f;
 
     [Header("Optional")]
-    [SerializeField] private Collider coverCollider;
+    [SerializeField] private Collider[] coverCollider;
     [SerializeField] private GameObject intactVisualRoot;
     public float secondsBeforeDrop = 5f;
     public EnemyAnim animController;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] audioClips;
+    // audioClips[0] = hit sound
+    // audioClips[1] = land sound
+
+    [Header("Audio Pitch Variation")]
+    [SerializeField] private bool randomizeHitPitch = true;
+    [SerializeField] private float hitMinPitch = 0.95f;
+    [SerializeField] private float hitMaxPitch = 1.05f;
+
+    [SerializeField] private bool randomizeLandingPitch = true;
+    [SerializeField] private float landingMinPitch = 0.92f;
+    [SerializeField] private float landingMaxPitch = 1.08f;
+
+    [Header("Landing Detection")]
+    [SerializeField] private bool enableLandingSound = true;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private string groundTag = "Ground";
+    [SerializeField] private bool useGroundTagCheck = false;
+
     private bool isBroken = false;
     private bool hasShownDamagedState = false;
     private Rigidbody rb;
+
+    private bool hasPlayedLandingSound = false;
+    private bool hasStartedFalling = false;
 
     private void Awake()
     {
@@ -39,8 +63,15 @@ public class VentCover : MonoBehaviour, IDamageable
         if (targetRenderer == null)
             targetRenderer = GetComponentInChildren<Renderer>();
 
-        if (coverCollider == null)
-            coverCollider = GetComponent<Collider>();
+        if (coverCollider == null || coverCollider.Length == 0)
+        {
+            Collider selfCol = GetComponent<Collider>();
+            if (selfCol != null)
+                coverCollider = new Collider[] { selfCol };
+        }
+
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
 
         UpdateVisualState();
     }
@@ -50,14 +81,14 @@ public class VentCover : MonoBehaviour, IDamageable
         if (isBroken)
             return;
 
-        // 重击直接碎
+        PlayHitSound();
+
         if (damage >= heavyAttackDamageThreshold)
         {
             BreakCover();
             return;
         }
 
-        // 轻击扣1点
         currentHp -= 1;
 
         if (currentHp <= 0)
@@ -78,10 +109,10 @@ public class VentCover : MonoBehaviour, IDamageable
         hasShownDamagedState = true;
 
         if (targetRenderer != null && damagedMaterial != null)
-        {
             targetRenderer.material = damagedMaterial;
+
+        if (othersideRenderer != null && damagedMaterial != null)
             othersideRenderer.material = damagedMaterial;
-        }
     }
 
     private void UpdateVisualState()
@@ -94,39 +125,56 @@ public class VentCover : MonoBehaviour, IDamageable
             if (intactMaterial != null)
             {
                 targetRenderer.material = intactMaterial;
-                othersideRenderer.material = intactMaterial;
+
+                if (othersideRenderer != null)
+                    othersideRenderer.material = intactMaterial;
             }
-                
-            
         }
         else
         {
             if (damagedMaterial != null)
             {
                 targetRenderer.material = damagedMaterial;
-                othersideRenderer.material= damagedMaterial;
+
+                if (othersideRenderer != null)
+                    othersideRenderer.material = damagedMaterial;
             }
         }
     }
+
     public void ventDrop()
     {
+        if (rb == null)
+            return;
+
+        hasStartedFalling = true;
+        hasPlayedLandingSound = false;
         rb.isKinematic = false;
     }
+
     public void ventWaitDrop()
     {
         StartCoroutine(waitthendrop());
     }
+
     IEnumerator waitthendrop()
     {
         yield return new WaitForSeconds(secondsBeforeDrop);
-        rb.isKinematic = false;
-        StartCoroutine(waitthenActivateController());
+
+        if (rb != null)
+        {
+            hasStartedFalling = true;
+            hasPlayedLandingSound = false;
+            rb.isKinematic = false;
+        }
     }
+
     IEnumerator waitthenActivateController()
     {
         yield return new WaitForSeconds(3f);
         animController.enabled = true;
     }
+
     private void BreakCover()
     {
         if (isBroken)
@@ -134,23 +182,21 @@ public class VentCover : MonoBehaviour, IDamageable
 
         isBroken = true;
 
-        // 生成碎裂版
         if (brokenVersion != null)
         {
             brokenVersion.SetActive(true);
-
-            // 如果碎裂版原本不在层级里，而是 prefab，
-            // 可以改成 Instantiate 方式
-            // Instantiate(brokenVersion, transform.position, transform.rotation);
+            // 如果 brokenVersion 是 prefab，可改成 Instantiate
         }
 
-        // 关掉完整版碰撞
         if (coverCollider != null)
         {
-            coverCollider.enabled = false;
+            foreach (Collider cc in coverCollider)
+            {
+                if (cc != null)
+                    cc.enabled = false;
+            }
         }
 
-        // 隐藏完整版视觉
         if (intactVisualRoot != null)
         {
             intactVisualRoot.SetActive(false);
@@ -158,12 +204,74 @@ public class VentCover : MonoBehaviour, IDamageable
         else if (targetRenderer != null)
         {
             targetRenderer.enabled = false;
+
+            if (othersideRenderer != null)
+                othersideRenderer.enabled = false;
         }
 
         if (destroyWholeObjectOnBreak)
         {
-            Destroy(othersideRenderer.gameObject,destroyDelay);
+            if (othersideRenderer != null)
+                Destroy(othersideRenderer.gameObject, destroyDelay);
+
             Destroy(gameObject, destroyDelay);
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!enableLandingSound)
+            return;
+
+        if (!hasStartedFalling)
+            return;
+
+        if (hasPlayedLandingSound)
+            return;
+
+        if (IsGroundCollision(collision))
+        {
+            PlayLandingSound();
+            hasPlayedLandingSound = true;
+            hasStartedFalling = false;
+        }
+    }
+
+    private bool IsGroundCollision(Collision collision)
+    {
+        if (useGroundTagCheck)
+            return collision.collider.CompareTag(groundTag);
+
+        return ((1 << collision.gameObject.layer) & groundLayer) != 0;
+    }
+
+    private void PlayHitSound()
+    {
+        if (audioSource == null)
+            return;
+
+        if (audioClips == null || audioClips.Length <= 0 || audioClips[0] == null)
+            return;
+
+        audioSource.pitch = randomizeHitPitch
+            ? Random.Range(hitMinPitch, hitMaxPitch)
+            : 1f;
+
+        audioSource.PlayOneShot(audioClips[0]);
+    }
+
+    private void PlayLandingSound()
+    {
+        if (audioSource == null)
+            return;
+
+        if (audioClips == null || audioClips.Length <= 1 || audioClips[1] == null)
+            return;
+
+        audioSource.pitch = randomizeLandingPitch
+            ? Random.Range(landingMinPitch, landingMaxPitch)
+            : 1f;
+
+        audioSource.PlayOneShot(audioClips[1]);
     }
 }

@@ -23,9 +23,14 @@ public class ThrowablePickupController : MonoBehaviour
     public LayerMask trajectoryCollisionMask;
     public float trajectoryCollisionRadius = 0.02f;
 
+    [Header("Terminal Block Throw")]
+    public LayerMask terminalScreenMask;
+    public float terminalCheckDistance = 2.5f;
+
     public ThrowableItem heldItem;
     private bool isChargingThrow;
     private float throwChargeStartTime;
+
     [Header("else")]
     public GameObject Pcrowbar;
     private MeleeAttack ma;
@@ -33,6 +38,7 @@ public class ThrowablePickupController : MonoBehaviour
     private void Awake()
     {
         ma = GetComponent<MeleeAttack>();
+
         if (trajectoryLine != null)
             trajectoryLine.enabled = false;
     }
@@ -45,6 +51,7 @@ public class ThrowablePickupController : MonoBehaviour
         HandleThrowInput();
         UpdateTrajectoryPreview();
     }
+
     private void HandlePowerSourceInteract()
     {
         if (!Input.GetKeyDown(KeyCode.E))
@@ -67,6 +74,7 @@ public class ThrowablePickupController : MonoBehaviour
 
         powerSource.TryInsertHeldItem(this);
     }
+
     public ThrowableItem ReleaseHeldItemForSocket()
     {
         if (heldItem == null)
@@ -83,6 +91,7 @@ public class ThrowablePickupController : MonoBehaviour
 
         return item;
     }
+
     private void HandlePickup()
     {
         if (heldItem != null)
@@ -98,6 +107,7 @@ public class ThrowablePickupController : MonoBehaviour
                 pickupDistance,
                 pickupMask))
             return;
+
         pickupCrowbar crowbar = hit.collider.GetComponentInParent<pickupCrowbar>();
         if (crowbar != null)
         {
@@ -105,6 +115,7 @@ public class ThrowablePickupController : MonoBehaviour
             ma.enabled = true;
             crowbar.selfdes();
         }
+
         ThrowableItem item = hit.collider.GetComponentInParent<ThrowableItem>();
         if (item == null || item.isHeld)
             return;
@@ -143,6 +154,16 @@ public class ThrowablePickupController : MonoBehaviour
     {
         if (heldItem == null)
             return;
+
+        // 手里有物体且准星正对终端屏幕时，禁用投掷逻辑
+        if (IsAimingAtTerminalScreen())
+        {
+            if (isChargingThrow)
+                CancelThrowCharge();
+
+            HideTrajectory();
+            return;
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -183,7 +204,7 @@ public class ThrowablePickupController : MonoBehaviour
 
     private void UpdateTrajectoryPreview()
     {
-        if (!isChargingThrow || heldItem == null || trajectoryLine == null)
+        if (!isChargingThrow || heldItem == null || trajectoryLine == null || IsAimingAtTerminalScreen())
         {
             HideTrajectory();
             return;
@@ -257,6 +278,23 @@ public class ThrowablePickupController : MonoBehaviour
         }
 
         trajectoryLine.positionCount = finalCount;
+    }
+
+    private bool IsAimingAtTerminalScreen()
+    {
+        if (heldItem == null)
+            return false;
+
+        if (playerCamera == null)
+            return false;
+
+        return Physics.Raycast(
+            playerCamera.transform.position,
+            playerCamera.transform.forward,
+            terminalCheckDistance,
+            terminalScreenMask,
+            QueryTriggerInteraction.Ignore
+        );
     }
 
     private float GetThrowCharge01()

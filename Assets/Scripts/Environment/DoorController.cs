@@ -34,9 +34,12 @@ public class DoorController : MonoBehaviour
 
     private int playersInRange = 0;
     private Coroutine autoCloseRoutine;
+    private DoorSoundController soundController;
 
     void Start()
     {
+        soundController = GetComponent<DoorSoundController>();
+
         Vector3 leftMoveDir = leftDoor.parent.InverseTransformDirection(
             leftDoor.TransformDirection(Vector3.left)
         ).normalized;
@@ -69,7 +72,6 @@ public class DoorController : MonoBehaviour
         if (isLocked)
             return;
 
-        // 已经开着，或者已经正在朝“打开”运动
         if (isOpen || (isMoving && targetIsOpen))
             return;
 
@@ -77,12 +79,15 @@ public class DoorController : MonoBehaviour
             StopCoroutine(currentRoutine);
 
         targetIsOpen = true;
+
+        if (soundController != null)
+            soundController.PlayOpenSound();
+
         currentRoutine = StartCoroutine(MoveDoor(true));
     }
 
     public void CloseDoor()
     {
-        // 已经关着，或者已经正在朝“关闭”运动
         if ((!isOpen && !isMoving) || (isMoving && !targetIsOpen))
             return;
 
@@ -90,6 +95,10 @@ public class DoorController : MonoBehaviour
             StopCoroutine(currentRoutine);
 
         targetIsOpen = false;
+
+        if (soundController != null)
+            soundController.PlayCloseSound();
+
         currentRoutine = StartCoroutine(MoveDoor(false));
     }
 

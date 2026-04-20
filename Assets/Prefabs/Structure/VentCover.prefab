@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7323307843364388058}
   - component: {fileID: 2472260495245045582}
   - component: {fileID: 8282199870617125974}
+  - component: {fileID: 1783445307874527247}
   m_Layer: 0
   m_Name: VentCover
   m_TagString: Untagged
@@ -193,7 +194,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 620
+  m_VersionIndex: 623
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -320,9 +321,126 @@ MonoBehaviour:
   othersideRenderer: {fileID: 868691458587419007}
   brokenVersion: {fileID: 0}
   destroyWholeObjectOnBreak: 1
-  destroyDelay: 0
-  coverCollider: {fileID: 2472260495245045582}
+  destroyDelay: 0.8
+  coverCollider:
+  - {fileID: 0}
+  - {fileID: 5373745890916560478}
   intactVisualRoot: {fileID: 0}
+  secondsBeforeDrop: 5
+  animController: {fileID: 0}
+  audioSource: {fileID: 0}
+  audioClips:
+  - {fileID: 8300000, guid: a020dcd1ff7259d4594fc3b50fb2f130, type: 3}
+  - {fileID: 8300000, guid: 84999cd9e9e005340821fa7e8dea4670, type: 3}
+  randomizeHitPitch: 1
+  hitMinPitch: 0.95
+  hitMaxPitch: 1.05
+  randomizeLandingPitch: 1
+  landingMinPitch: 0.92
+  landingMaxPitch: 1.08
+  enableLandingSound: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundTag: Ground
+  useGroundTagCheck: 0
+--- !u!82 &1783445307874527247
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850676833057288694}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4387105784085593252
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,7 +633,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 620
+  m_VersionIndex: 623
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -642,6 +760,23 @@ MonoBehaviour:
   othersideRenderer: {fileID: 3254662046285541700}
   brokenVersion: {fileID: 0}
   destroyWholeObjectOnBreak: 1
-  destroyDelay: 0
-  coverCollider: {fileID: 5373745890916560478}
+  destroyDelay: 3
+  coverCollider:
+  - {fileID: 0}
   intactVisualRoot: {fileID: 0}
+  secondsBeforeDrop: 5
+  animController: {fileID: 0}
+  audioSource: {fileID: 0}
+  audioClips: []
+  randomizeHitPitch: 1
+  hitMinPitch: 0.95
+  hitMaxPitch: 1.05
+  randomizeLandingPitch: 1
+  landingMinPitch: 0.92
+  landingMaxPitch: 1.08
+  enableLandingSound: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundTag: Ground
+  useGroundTagCheck: 0

@@ -61,6 +61,15 @@ public class EnemyAnim : MonoBehaviour
     public float groundCheckDistance = 3.0f;
     public float groundOffset = 0.02f;
 
+    [Header("Stare")]
+    public Transform stareTarget;
+    public float stareIdleTime = 4f;
+    public float stareRotateSpeed = 120f; // 每秒旋转角度
+    public bool stareLockYOnly = true;
+
+    private Coroutine stareRoutine;
+    private bool isStaring;
+
     [Header("Options")]
     public bool playOnStart = false;
     public bool useLocalRotation = true;
@@ -332,5 +341,103 @@ public class EnemyAnim : MonoBehaviour
 
         if (AI != null)
             AI.enabled = originalAIEnabledState;
+    }
+
+    public void StartStare(Transform target)
+    {
+        if (target == null) return;
+
+        if (stareRoutine != null)
+            StopCoroutine(stareRoutine);
+
+        CacheOriginalStates();
+
+        stareTarget = target;
+        stareRoutine = StartCoroutine(StareRoutine());
+    }
+
+    public void StopStare()
+    {
+        if (stareRoutine != null)
+        {
+            StopCoroutine(stareRoutine);
+            stareRoutine = null;
+        }
+
+        isStaring = false;
+        RestoreOriginalControlStates();
+    }
+    private IEnumerator StareRoutine()
+    {
+        isStaring = true;
+
+        // ?锁控制（防止AI乱动）
+        if (rb != null) rb.isKinematic = true;
+        if (Agent != null) Agent.enabled = false;
+        if (AI != null) AI.enabled = false;
+
+        // ====== 1. 发呆 ======
+        yield return new WaitForSeconds(stareIdleTime);
+
+        // ====== 2. 转向玩家（一次性对准）======
+        yield return RotateToTargetOnce();
+
+        // ====== 3. 持续盯玩家 ======
+        while (stareTarget != null)
+        {
+            RotateTowardsTargetContinuous();
+            yield return null;
+        }
+    }
+    private IEnumerator RotateToTargetOnce()
+    {
+        if (stareTarget == null) yield break;
+
+        while (true)
+        {
+            Vector3 dir = stareTarget.position - animRoot.position;
+
+            if (stareLockYOnly)
+                dir.y = 0f;
+
+            if (dir.sqrMagnitude < 0.001f)
+                yield break;
+
+            Quaternion targetRot = Quaternion.LookRotation(dir.normalized);
+            Quaternion current = animRoot.rotation;
+
+            animRoot.rotation = Quaternion.RotateTowards(
+                current,
+                targetRot,
+                stareRotateSpeed * Time.deltaTime
+            );
+
+            float angle = Quaternion.Angle(current, targetRot);
+
+            if (angle < 1f)
+                break;
+
+            yield return null;
+        }
+    }
+    private void RotateTowardsTargetContinuous()
+    {
+        if (stareTarget == null) return;
+
+        Vector3 dir = stareTarget.position - animRoot.position;
+
+        if (stareLockYOnly)
+            dir.y = 0f;
+
+        if (dir.sqrMagnitude < 0.001f)
+            return;
+
+        Quaternion targetRot = Quaternion.LookRotation(dir.normalized);
+
+        animRoot.rotation = Quaternion.RotateTowards(
+            animRoot.rotation,
+            targetRot,
+            stareRotateSpeed * Time.deltaTime
+        );
     }
 }

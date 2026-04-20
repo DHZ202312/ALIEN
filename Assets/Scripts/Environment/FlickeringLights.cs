@@ -34,10 +34,23 @@ public class FlickeringLights : MonoBehaviour
     float eventEndTime;
     float nextCheckTime;
 
+    public AudioSource ads;
+    public AudioClip[] clips;
+
     void Awake()
     {
         lightComp = GetComponent<Light>();
         lightComp.intensity = baseIntensity;
+    }
+    private void Start()
+    {
+        if(TryGetComponent<AudioSource>(out ads))
+        {
+            ads.enabled = true;
+            if(ads.clip == null)
+                ads.clip = clips[0];
+            ads.Play();
+        }
     }
 
     void Update()

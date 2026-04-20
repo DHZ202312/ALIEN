@@ -22,6 +22,7 @@ public class MeleeAttack : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform hitOrigin;
     [SerializeField] private CharacterController characterController;
+    public SwingSoundEmitter sse;
 
     [Header("Input")]
     [SerializeField] private int attackMouseButton = 1;
@@ -242,6 +243,7 @@ public class MeleeAttack : MonoBehaviour
 
             if (debugLog) Debug.Log("Melee: Light Swing");
         }
+        sse.PlaySwing();
     }
 
     private void UpdateSwingToMid()
